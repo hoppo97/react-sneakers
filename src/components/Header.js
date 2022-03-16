@@ -1,4 +1,4 @@
-function Header () {
+function Header ({onClickCart}) {
     return (
         <header className="d-flex justify-between align-center p-40">
           <div className="d-flex align-center">
@@ -8,10 +8,13 @@ function Header () {
               <p>Магазин лучших кросовок</p>
             </div>
           </div>
-          <ul className="d-flex">
-            <li className="mr-30">
+          <ul className="d-flex cu-p">
+            <li className="mr-30" onClick={onClickCart}>
               <img alt="" width={18} height={18} src="/img/cart.svg"/>
               <span>1205 руб.</span>
+            </li>
+            <li>
+              <img alt="" width={18} height={18} src="/img/favorite.svg"/>
             </li>
             <li>
               <img alt="" width={18} height={18} src="/img/user.svg"/>
