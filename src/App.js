@@ -6,6 +6,12 @@ import Header from './components/Header';
 import Drawer from './components/Drawer';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import AppContext from './context';
+
+
+
+
+
 
 function App() {
 
@@ -14,6 +20,8 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
 
   React.useEffect(() => {
     async function fetchData() {
@@ -21,6 +29,8 @@ function App() {
       const favoritesResponse = await axios.get('https://6228f848be12fc45389313b2.mockapi.io/favorite');
       const itemsResponse = await axios.get('https://6228f848be12fc45389313b2.mockapi.io/items');
       
+      setIsLoading(false)
+
       setCartItems(cartResponse.data);
       setFavorites(favoritesResponse.data);
       setItems(itemsResponse.data);
@@ -55,8 +65,9 @@ function App() {
 
   const onAddToFavorite = async (obj) => {
     try{
-      if(favorites.find(item => item.id === obj.id) ){
-        axios.delete(`https://6228f848be12fc45389313b2.mockapi.io/favorite/${obj.id}`); 
+      if(favorites.find(item => Number(item.parentId) === Number(obj.parentId))){
+        axios.delete(`https://6228f848be12fc45389313b2.mockapi.io/favorite/${obj.parentId}`); 
+        setFavorites(prev => prev.filter(item => Number(item.parentId) !== Number(obj.parentId)));
       } else {
         const {data} = await axios.post('https://6228f848be12fc45389313b2.mockapi.io/favorite', obj);
         setFavorites(prev => [...prev, data]);
@@ -69,25 +80,43 @@ function App() {
   const onRemoveCartItem =  (id) => {
     axios.delete(`https://6228f848be12fc45389313b2.mockapi.io/cart/${id}`);
     setCartItems(cartItems.filter((item) => item.id !== id));
+  };
+
+  const isItemAdded = (id) => {
+    return cartItems.some(obj => Number(obj.parentId) === Number(id));
+  }
+
+  const isFavoriteAdded = (id) => {
+    return favorites.some(obj => Number(obj.parentId) === Number(id));
   }
 
   return (
-    <div className="wrapper clear">
+    <AppContext.Provider value={ { items, cartItems, favorites, isItemAdded, isFavoriteAdded, setCartOpened, setCartItems } } >
+      <div className="wrapper clear">
         {cartOpened ? <Drawer onRemoveCart={onRemoveCartItem} items={cartItems} onClose={onClickOpenCart}/> : null}
         <Header onClickCart={onClickOpenCart} />
 
         <Routes>
-
           <Route  path="/" element={
-            <Home items={items} favorites={favorites} searchValue={searchValue} onChangeSearchInput={onChangeSearchInput} onAddToCart={onAddToCart} onAddToFavorite={onAddToFavorite} cartItems={cartItems}/>
+            <Home 
+              items={items} 
+              favorites={favorites} 
+              searchValue={searchValue} 
+              onChangeSearchInput={onChangeSearchInput} 
+              onAddToCart={onAddToCart} 
+              onAddToFavorite={onAddToFavorite} 
+              cartItems={cartItems}
+              isLoading={isLoading}
+            />
           }/>
 
           <Route  path="/favorites" element={
-            <Favorites  items={favorites} onAddToFavorite={onAddToFavorite}/>
+            <Favorites  onAddToFavorite={onAddToFavorite}/>
           }/>
 
         </Routes>
-    </div>
+      </div>
+    </AppContext.Provider>
   );
 };
 export default App;
