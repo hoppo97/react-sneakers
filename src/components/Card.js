@@ -4,26 +4,24 @@ import AppContext from "../context";
 
 function Card ({
     id, 
-    parentId,
     imageUrl, 
     title, 
     price, 
     onPlus, 
     onFavorites, 
     favorited = false, 
-    added = false,
     loading = false,
 })  {
 
     const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext)
-    const [isFavorite, setIsFavorite] = React.useState(favorited);
-
+    const [isFavorite, setIsFavorite] = React.useState(isFavoriteAdded(id));
+    const obj = {id, parentId: id, imageUrl, title, price}
     const onClickPlus = () => {
-        onPlus({parentId, imageUrl, title, price});
+        onPlus(obj);
     };
 
     const onClickFavorite = () => {
-        onFavorites({id, parentId, imageUrl, title, price});
+        onFavorites(obj);
         setIsFavorite(!isFavorite);
     };
 
@@ -45,9 +43,9 @@ function Card ({
                 <rect x="0" y="234" rx="5" ry="5" width="80" height="25" />
               </ContentLoader> : 
               <>
-                <div className="favorite" onClick={onClickFavorite}>
-                    <img src={isFavoriteAdded(parentId) ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
-                </div>
+                {onFavorites && <div className="favorite" onClick={onClickFavorite}>
+                    <img src={isFavoriteAdded(id) ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
+                </div>}
                 <img width='100%' height={135} src={imageUrl} alt="" />
                 <h5>{title}</h5>
                 <div className="d-flex justify-between align-center">
@@ -55,12 +53,12 @@ function Card ({
                         <span>Цена:</span>
                         <b>{price} руб.</b>
                     </div>
-                    <img 
+                    {onPlus && <img 
                         className="plus"
-                        src={isItemAdded(parentId) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} 
+                        src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} 
                         alt="plus" 
                         onClick={onClickPlus}
-                    />
+                    />}
                 </div>
               </>
               

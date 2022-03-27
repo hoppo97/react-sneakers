@@ -18,6 +18,7 @@ function Home ({
           key={index}
           {...item}
           onPlus = {(obj) => onAddToCart(obj)}
+          favorited = {false}
           onFavorites = {(obj) => onAddToFavorite(obj)}
           loading={isLoading}
         />
