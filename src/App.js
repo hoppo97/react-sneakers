@@ -10,8 +10,6 @@ import Orders from './pages/Orders';
 import AppContext from './context';
 
 function App() {
-
-  const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
@@ -21,16 +19,14 @@ function App() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const [cartResponse, favoritesResponse, itemsResponse] = await Promise.all([
+        const [cartResponse, favoritesResponse] = await Promise.all([
           axios.get('http://localhost:3001/cart'), 
           axios.get('http://localhost:3001/favorites'), 
-          axios.get('http://localhost:3001/items')
         ]);
-    
         setIsLoading(false)
         setCartItems(cartResponse.data);
         setFavorites(favoritesResponse.data);
-        setItems(itemsResponse.data);
+        
       } catch (error) {
         alert('Ошибка при запросе данных')
         console.error(error);
@@ -113,7 +109,6 @@ function App() {
   return (
     <AppContext.Provider 
     value={{ 
-      items, 
       cartItems, 
       favorites, 
       isItemAdded, 
@@ -135,7 +130,6 @@ function App() {
         <Routes>
           <Route  path="/" element={
             <Home 
-              items={items} 
               favorites={favorites} 
               searchValue={searchValue} 
               onChangeSearchInput={onChangeSearchInput} 
