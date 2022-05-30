@@ -12,6 +12,8 @@ export const fetchSneakers = createAsyncThunk(
 
 const initialState = {
   sneakers: [],
+  status: null,
+  error: null,
 };
 
 export const sneakersSlice = createSlice({
@@ -21,8 +23,14 @@ export const sneakersSlice = createSlice({
     
   },
   extraReducers: {
-    [fetchSneakers.pending] : (state, actions) => {},
-    [fetchSneakers.fulfilled] : (state, actions) => {},
+    [fetchSneakers.pending] : (state) => {
+      state.status = 'loading';
+      state.error = null;
+    },
+    [fetchSneakers.fulfilled] : (state, actions) => {
+      state.status = 'resolved';
+      state.sneakers = actions.payload;
+    },
     [fetchSneakers.rejected] : (state, actions) => {},
   },
 });
