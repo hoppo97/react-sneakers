@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 function Home ({
   searchValue, 
-  items, 
   onChangeSearchInput, 
   onAddToCart, 
   onAddToFavorite, 
