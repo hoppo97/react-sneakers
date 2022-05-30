@@ -1,27 +1,40 @@
-import React from 'react';
+import React  from 'react';
 import Card from '../components/Card';
-
+import { fetchSneakers } from '../redux/slices/sneakersSlice';
+import {sneakersReducer} from '../redux/store';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Home ({
   searchValue, 
-  items, 
   onChangeSearchInput, 
   onAddToCart, 
   onAddToFavorite, 
   isLoading
 }) {
 
+  const dispatch = useDispatch();
+  const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
+
+  console.log(error);
+
+  React.useEffect(() => {
+    dispatch(fetchSneakers());
+  }, []);
+
   const renderItems = () => {
-    const filtredItems = items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
-    return (isLoading ? [...Array(12)] : filtredItems).map((item, index) => (
+    const filtredItems = sneakers.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
+    return (status === 'loading' ? [...Array(12)] : filtredItems).map((item, index) => (
+      <>
+        
         <Card  
           key={index}
           {...item}
           onPlus = {(obj) => onAddToCart(obj)}
-          favorited = {false}
+          favorited = {false} 
           onFavorites = {(obj) => onAddToFavorite(obj)}
-          loading={isLoading}
+          status={status}
         />
+      </>
       ))
   }
 
@@ -36,6 +49,7 @@ function Home ({
         </div>
 
     <div className="d-flex flex-wrap justify-center">
+    {error && <h2>Ошибка {error}</h2>}
       {renderItems()}
     </div>
   </div>);

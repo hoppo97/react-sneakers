@@ -10,7 +10,7 @@ function Card ({
     onPlus, 
     onFavorites, 
     favorited = false, 
-    loading = false,
+    status = 'resolved',
 })  {
 
     const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext)
@@ -28,7 +28,7 @@ function Card ({
     return (
         <div className="card">
             {
-                loading ? <ContentLoader 
+                status === 'loading' ? <ContentLoader 
                 speed={2}
                 width={155}
                 height={250}
