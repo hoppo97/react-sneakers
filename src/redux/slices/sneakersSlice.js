@@ -3,10 +3,13 @@ import axios from 'axios';
 
 export const fetchSneakers = createAsyncThunk(
   'sneakers/fetchSneakers', 
-  async function () {
-    const {data} = await axios.get('http://localhost:3001/items');
-
-    return data;
+  async function (_, {rejectWithValue}) {
+    try {
+      const {data} = await axios.get('http://localhost:3001/items')
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   },
 );
 
@@ -31,7 +34,10 @@ export const sneakersSlice = createSlice({
       state.status = 'resolved';
       state.sneakers = actions.payload;
     },
-    [fetchSneakers.rejected] : (state, actions) => {},
+    [fetchSneakers.rejected] : (state, actions) => {
+      state.status = 'rejected';
+      state.error = actions.payload;
+    },
   },
 });
 
