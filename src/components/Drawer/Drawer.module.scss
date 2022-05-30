@@ -11,8 +11,7 @@
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     overflow: hidden;
   }
-
-
+  
 .overlayVisible {
     visibility: visible;
     opacity: 1;
@@ -36,7 +35,6 @@
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
 
-  
     .items {
       overflow: auto;
       margin-bottom: 40px;
@@ -45,7 +43,6 @@
   
     h2 {
       margin: 0;
-  
     }
   }
   

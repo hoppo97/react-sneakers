@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from '../components/Card';
 
-
 function Home ({
   searchValue, 
   items, 
@@ -18,7 +17,7 @@ function Home ({
           key={index}
           {...item}
           onPlus = {(obj) => onAddToCart(obj)}
-          favorited = {false}
+          favorited = {false} 
           onFavorites = {(obj) => onAddToFavorite(obj)}
           loading={isLoading}
         />

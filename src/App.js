@@ -22,9 +22,9 @@ function App() {
     async function fetchData() {
       try {
         const [cartResponse, favoritesResponse, itemsResponse] = await Promise.all([
-          axios.get('https://6228f848be12fc45389313b2.mockapi.io/cart'), 
-          axios.get('https://6228f848be12fc45389313b2.mockapi.io/favorite'), 
-          axios.get('https://6228f848be12fc45389313b2.mockapi.io/items')
+          axios.get('http://localhost:3001/cart'), 
+          axios.get('http://localhost:3001/favorites'), 
+          axios.get('http://localhost:3001/items')
         ]);
     
         setIsLoading(false)
@@ -56,7 +56,7 @@ function App() {
         onRemoveCartItem(findItem.id);
       } else {
         setCartItems(prev => [...prev, obj]);
-        const { data } = await axios.post('https://6228f848be12fc45389313b2.mockapi.io/cart', obj);
+        const { data } = await axios.post('http://localhost:3001/cart', obj);
         setCartItems(prev => prev.map(item => {
           if(item.parentId === data.parentId) {
             return {
@@ -79,9 +79,9 @@ function App() {
     try{
       if(favorites.find(item => Number(item.id) === Number(obj.id))){
         setFavorites(prev => prev.filter(item => Number(item.id) !== Number(obj.id)));
-        await axios.delete(`https://6228f848be12fc45389313b2.mockapi.io/favorite/${obj.id}`); 
+        await axios.delete(`http://localhost:3001/favorites/${obj.id}`); 
       } else {
-        const { data } = await axios.post('https://6228f848be12fc45389313b2.mockapi.io/favorite', obj);
+        const { data } = await axios.post('http://localhost:3001/favorites', obj);
         setFavorites(prev => [...prev, data]);
       }
     } catch (error) {
@@ -94,7 +94,7 @@ function App() {
   const onRemoveCartItem = async (id) => {
     try {
       setCartItems(cartItems.filter((item) => Number(item.id) !== Number(id)));
-      await axios.delete(`https://6228f848be12fc45389313b2.mockapi.io/cart/${id}`);
+      await axios.delete(`http://localhost:3001/cart/${id}`);
     } catch (error) {
       alert('Ошибка при удалении товара из корзины')
       console.error(error);
@@ -109,8 +109,6 @@ function App() {
   const isFavoriteAdded = (id) => {
     return favorites.some(obj => Number(obj.parentId) === Number(id));
   }
-
-  
 
   return (
     <AppContext.Provider 
@@ -153,7 +151,7 @@ function App() {
           }/>
 
           <Route  path="/orders" element={
-            <Orders  />
+            <Orders />
           }/>
 
         </Routes>
