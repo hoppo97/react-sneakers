@@ -13,9 +13,9 @@ function Home ({
 }) {
 
   const dispatch = useDispatch();
-  const sneakers = useSelector(state => state?.sneakersReducer?.sneakers);
+  const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
 
-  console.log(sneakers);
+  console.log(error);
 
   React.useEffect(() => {
     dispatch(fetchSneakers());
@@ -23,15 +23,18 @@ function Home ({
 
   const renderItems = () => {
     const filtredItems = sneakers.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
-    return (isLoading ? [...Array(12)] : filtredItems).map((item, index) => (
+    return (status === 'loading' ? [...Array(12)] : filtredItems).map((item, index) => (
+      <>
+        
         <Card  
           key={index}
           {...item}
           onPlus = {(obj) => onAddToCart(obj)}
           favorited = {false} 
           onFavorites = {(obj) => onAddToFavorite(obj)}
-          loading={isLoading}
+          status={status}
         />
+      </>
       ))
   }
 
@@ -46,6 +49,7 @@ function Home ({
         </div>
 
     <div className="d-flex flex-wrap justify-center">
+    {error && <h2>Ошибка {error}</h2>}
       {renderItems()}
     </div>
   </div>);
