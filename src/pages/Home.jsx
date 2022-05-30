@@ -1,5 +1,8 @@
-import React from 'react';
+import React  from 'react';
 import Card from '../components/Card';
+import { fetchSneakers } from '../redux/slices/sneakersSlice';
+import {sneakersReducer} from '../redux/store';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Home ({
   searchValue, 
@@ -10,8 +13,17 @@ function Home ({
   isLoading
 }) {
 
+  const dispatch = useDispatch();
+  const sneakers = useSelector(state => state?.sneakersReducer?.sneakers);
+
+  console.log(sneakers);
+
+  React.useEffect(() => {
+    dispatch(fetchSneakers());
+  }, []);
+
   const renderItems = () => {
-    const filtredItems = items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
+    const filtredItems = sneakers.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
     return (isLoading ? [...Array(12)] : filtredItems).map((item, index) => (
         <Card  
           key={index}
