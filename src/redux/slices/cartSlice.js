@@ -29,6 +29,16 @@ export const cartItems = createSlice ({
   },
 
   extraReducers: {
-
+    [fetchCartItems.pending] : (state) => {
+      state.status = 'loading';
+    },
+    [fetchCartItems.fulfilled] : (state, actions) => {
+      state.status = 'resolved'
+      state.cartItems = actions.payload;
+    },
+    [fetchCartItems.rejected] : (state, actions) => {
+      state.status = 'error';
+      state.error = actions.payload;
+    }
   }
 });
