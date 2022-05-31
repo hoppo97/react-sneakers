@@ -1,24 +1,25 @@
 import React  from 'react';
 import Card from '../components/Card';
 import { fetchSneakers } from '../redux/slices/sneakersSlice';
-import {sneakersReducer} from '../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchCartItems } from '../redux/slices/cartSlice';
 
 function Home ({
   searchValue, 
   onChangeSearchInput, 
   onAddToCart, 
   onAddToFavorite, 
-  isLoading
 }) {
 
   const dispatch = useDispatch();
   const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
+  
 
   console.log(error);
 
   React.useEffect(() => {
     dispatch(fetchSneakers());
+    dispatch(fetchCartItems());
   }, []);
 
   const renderItems = () => {

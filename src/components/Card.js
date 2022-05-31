@@ -1,6 +1,9 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncAddToCart, asyncRemoveFromCart } from "../redux/slices/cartSlice";
 import AppContext from "../context";
+import Plus from "./plus/Plus";
 
 function Card ({
     id, 
@@ -13,11 +16,27 @@ function Card ({
     status = 'resolved',
 })  {
 
-    const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext)
+    const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext);
     const [isFavorite, setIsFavorite] = React.useState(isFavoriteAdded(id));
-    const obj = {id, parentId: id, imageUrl, title, price}
+    const obj = {id, parentId: id, imageUrl, title, price};
+
+    const dispatch = useDispatch();
+    const {cartItems} = useSelector(state => state?.cartItemsReducer);
+
+    const isItemAddedd = (id) => {
+        return cartItems.some(obj => Number(obj.parentId) === Number(id));
+      }
+
+    const isItemInCart = cartItems && cartItems.some(item => parseInt(item.id) === obj.id);
+
+    console.log(isItemInCart);
+
     const onClickPlus = () => {
-        onPlus(obj);
+        if(isItemInCart) {
+            dispatch(asyncRemoveFromCart(obj.id));
+        }else {
+            dispatch(asyncAddToCart(obj));
+        }
     };
 
     const onClickFavorite = () => {
@@ -53,12 +72,7 @@ function Card ({
                         <span>Цена:</span>
                         <b>{price} руб.</b>
                     </div>
-                    {onPlus && <img 
-                        className="plus"
-                        src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} 
-                        alt="plus" 
-                        onClick={onClickPlus}
-                    />}
+                    <Plus onPlus={onPlus} isItemAddedd={isItemAddedd} onClickPlus={onClickPlus} id={id}/>
                 </div>
               </>
               

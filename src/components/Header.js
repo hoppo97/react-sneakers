@@ -1,10 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import {useCart} from '../hooks/useCart'
+
 function Header ({onClickCart}) {
-  const { totalPrice } = useCart();
-  
+    const {totalPrice} = useSelector(state => state?.cartItemsReducer);
     return (
         <header className="d-flex justify-between align-center p-40">
           <div className="d-flex align-center">

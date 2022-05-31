@@ -19,12 +19,12 @@ function App() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const [cartResponse, favoritesResponse] = await Promise.all([
+        const [ favoritesResponse] = await Promise.all([
           axios.get('http://localhost:3001/cart'), 
           axios.get('http://localhost:3001/favorites'), 
         ]);
         setIsLoading(false)
-        setCartItems(cartResponse.data);
+        
         setFavorites(favoritesResponse.data);
         
       } catch (error) {
@@ -123,7 +123,8 @@ function App() {
           onRemoveCart={onRemoveCartItem} 
           items={cartItems} 
           onClose={onClickOpenCart} 
-          opened={cartOpened}/>
+          opened={cartOpened}
+        />
 
         <Header onClickCart={onClickOpenCart} />
 
