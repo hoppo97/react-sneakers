@@ -25,6 +25,7 @@ export const sneakersSlice = createSlice({
   reducers: { 
     
   },
+
   extraReducers: {
     [fetchSneakers.pending] : (state) => {
       state.status = 'loading';
