@@ -1,11 +1,18 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
-import AppContext from "../context"
+import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 
 
-function Favorites({onAddToFavorite, onAddToCart}) {
-    const { favorites } = React.useContext(AppContext);
+
+function Favorites({onAddToCart}) { 
+    const {favorites} = useSelector(state => state?.favoritesReducer);
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(fetchAsyncFavorites());
+    }, [])
 
     return (
         <div className="content p-40">
@@ -15,13 +22,13 @@ function Favorites({onAddToFavorite, onAddToCart}) {
 
             {favorites.length > 0 ?
                 <div className="d-flex flex-wrap justify-center">
-                        {favorites.map((item, index) => (
+                        {favorites.map((item) => (
                             <Card  
                             key={item.id}
                             {...item}
                             onPlus={(obj) => onAddToCart(obj)}
                             favorited
-                            onFavorites={onAddToFavorite}
+                            
                             />
                         ))}
                 </div> :

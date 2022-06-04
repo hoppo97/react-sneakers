@@ -40,6 +40,17 @@ export const asyncRemoveFromCart = createAsyncThunk(
   }
 )
 
+export const asyncAllRemoveFromCart = createAsyncThunk (
+  'cartItems/asyncAllRemoveFromCart',
+  async function (arr, {rejectWithValue, dispatch}) {
+    try {
+      await axios.delete(``)
+    } catch (error) {
+      
+    }
+  }
+)
+
 const initialState = {
   totalPrice: 0,
   cartItems: [],
@@ -68,6 +79,7 @@ export const cartSlice = createSlice ({
     [fetchCartItems.fulfilled] : (state, action) => {
       state.status = 'resolved'
       state.cartItems = action.payload;
+      state.totalPrice = calcTotalPrice(state.cartItems);
     },
     [fetchCartItems.rejected] : (state, action) => {
       state.status = 'error';

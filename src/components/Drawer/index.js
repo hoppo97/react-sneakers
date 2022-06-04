@@ -21,7 +21,7 @@ function Drawer ({onClose, opened}) {
 
     console.log(cartItems);
 
-    const { setCartItems} = useCart();
+   
     const [orderId, setOrderId] = React.useState(null);
     const [isOrderComplete, setIsOrderComplete] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -35,7 +35,6 @@ function Drawer ({onClose, opened}) {
             
             setOrderId(data.id);
             setIsOrderComplete(true);
-            setCartItems([]);
 
             for (let i = 0; i < cartItems.length; i++) {
                 const item = cartItems[i];

@@ -10,26 +10,14 @@ function Card ({
     imageUrl, 
     title, 
     price, 
-    onPlus, 
-    onFavorites, 
-    favorited = false, 
     status = 'resolved',
 })  {
 
-    const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext);
-    const [isFavorite, setIsFavorite] = React.useState(isFavoriteAdded(id));
-    const obj = {id, parentId: id, imageUrl, title, price};
 
+    const obj = {id, parentId: id, imageUrl, title, price};
     const dispatch = useDispatch();
     const {cartItems} = useSelector(state => state?.cartItemsReducer);
-
-    const isItemAddedd = (id) => {
-        return cartItems.some(obj => Number(obj.parentId) === Number(id));
-      }
-
     const isItemInCart = cartItems && cartItems.some(item => parseInt(item.id) === obj.id);
-
-    console.log(isItemInCart);
 
     const onClickPlus = () => {
         if(isItemInCart) {
@@ -37,11 +25,6 @@ function Card ({
         }else {
             dispatch(asyncAddToCart(obj));
         }
-    };
-
-    const onClickFavorite = () => {
-        onFavorites(obj);
-        setIsFavorite(!isFavorite);
     };
 
     return (
@@ -62,9 +45,9 @@ function Card ({
                 <rect x="0" y="234" rx="5" ry="5" width="80" height="25" />
               </ContentLoader> : 
               <>
-                {onFavorites && <div className="favorite" onClick={onClickFavorite}>
-                    <img src={isFavoriteAdded(id) ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
-                </div>}
+                <div className="favorite">
+                    <img src={false ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
+                </div>
                 <img width='100%' height={135} src={imageUrl} alt="" />
                 <h5>{title}</h5>
                 <div className="d-flex justify-between align-center">
@@ -72,12 +55,10 @@ function Card ({
                         <span>Цена:</span>
                         <b>{price} руб.</b>
                     </div>
-                    <Plus onPlus={onPlus} isItemAddedd={isItemAddedd} onClickPlus={onClickPlus} id={id}/>
+                    <Plus cartItems={cartItems} onClickPlus={onClickPlus} id={id}/>
                 </div>
               </>
-              
             }
-            
         </div>
     );
 };
