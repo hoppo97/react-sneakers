@@ -1,15 +1,17 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import {useCart} from '../hooks/useCart'
+
 function Header ({onClickCart}) {
-  const { totalPrice } = useCart();
-  
+    const {totalPrice} = useSelector(state => state?.cartItemsReducer);
+
+    console.log(totalPrice);
     return (
         <header className="d-flex justify-between align-center p-40">
           <div className="d-flex align-center">
             <Link to="/">
-            <img alt="" width={40} height={40} src="/img/logo.png" />
+              <img alt="" width={40} height={40} src="/img/logo.png" />
             </Link>
             <div>
               <h3 className="text-uppercase">React Sneakers</h3>

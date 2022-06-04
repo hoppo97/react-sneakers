@@ -1,37 +1,35 @@
 import React  from 'react';
 import Card from '../components/Card';
 import { fetchSneakers } from '../redux/slices/sneakersSlice';
-import {sneakersReducer} from '../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchCartItems } from '../redux/slices/cartSlice';
+import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 
 function Home ({
   searchValue, 
   onChangeSearchInput, 
-  onAddToCart, 
-  onAddToFavorite, 
-  isLoading
 }) {
 
   const dispatch = useDispatch();
   const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
+  
 
   console.log(error);
 
   React.useEffect(() => {
     dispatch(fetchSneakers());
+    dispatch(fetchCartItems());
+    
   }, []);
 
   const renderItems = () => {
     const filtredItems = sneakers.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
     return (status === 'loading' ? [...Array(12)] : filtredItems).map((item, index) => (
       <>
-        
         <Card  
           key={index}
           {...item}
-          onPlus = {(obj) => onAddToCart(obj)}
           favorited = {false} 
-          onFavorites = {(obj) => onAddToFavorite(obj)}
           status={status}
         />
       </>

@@ -1,28 +1,30 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncAddToCart, asyncRemoveFromCart } from "../redux/slices/cartSlice";
 import AppContext from "../context";
+import Plus from "./plus/Plus";
 
 function Card ({
     id, 
     imageUrl, 
     title, 
     price, 
-    onPlus, 
-    onFavorites, 
-    favorited = false, 
     status = 'resolved',
 })  {
 
-    const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext)
-    const [isFavorite, setIsFavorite] = React.useState(isFavoriteAdded(id));
-    const obj = {id, parentId: id, imageUrl, title, price}
-    const onClickPlus = () => {
-        onPlus(obj);
-    };
 
-    const onClickFavorite = () => {
-        onFavorites(obj);
-        setIsFavorite(!isFavorite);
+    const obj = {id, parentId: id, imageUrl, title, price};
+    const dispatch = useDispatch();
+    const {cartItems} = useSelector(state => state?.cartItemsReducer);
+    const isItemInCart = cartItems && cartItems.some(item => parseInt(item.id) === obj.id);
+
+    const onClickPlus = () => {
+        if(isItemInCart) {
+            dispatch(asyncRemoveFromCart(obj.id));
+        }else {
+            dispatch(asyncAddToCart(obj));
+        }
     };
 
     return (
@@ -43,9 +45,9 @@ function Card ({
                 <rect x="0" y="234" rx="5" ry="5" width="80" height="25" />
               </ContentLoader> : 
               <>
-                {onFavorites && <div className="favorite" onClick={onClickFavorite}>
-                    <img src={isFavoriteAdded(id) ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
-                </div>}
+                <div className="favorite">
+                    <img src={false ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
+                </div>
                 <img width='100%' height={135} src={imageUrl} alt="" />
                 <h5>{title}</h5>
                 <div className="d-flex justify-between align-center">
@@ -53,17 +55,10 @@ function Card ({
                         <span>Цена:</span>
                         <b>{price} руб.</b>
                     </div>
-                    {onPlus && <img 
-                        className="plus"
-                        src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} 
-                        alt="plus" 
-                        onClick={onClickPlus}
-                    />}
+                    <Plus cartItems={cartItems} onClickPlus={onClickPlus} id={id}/>
                 </div>
               </>
-              
             }
-            
         </div>
     );
 };

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import axios from "axios";
 
@@ -6,14 +5,27 @@ import Info from "../Info";
 import {useCart} from '../../hooks/useCart';
 
 import styles from './Drawer.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncRemoveFromCart } from '../../redux/slices/cartSlice';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Drawer ({onClose, items = [], onRemoveCart, opened}) {
-    const { cartItems, setCartItems, totalPrice} = useCart();
+function Drawer ({onClose, opened}) {
+
+    const { cartItems, totalPrice } = useSelector(state => state?.cartItemsReducer);
+    const dispatch = useDispatch();
+    
+    const onRemoveCart = (id) => {
+        dispatch(asyncRemoveFromCart(id));
+    }
+
+    console.log(cartItems);
+
+   
     const [orderId, setOrderId] = React.useState(null);
     const [isOrderComplete, setIsOrderComplete] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+
     const onClickOrder = async () => {
         try {
             setIsLoading(true);
@@ -23,7 +35,6 @@ function Drawer ({onClose, items = [], onRemoveCart, opened}) {
             
             setOrderId(data.id);
             setIsOrderComplete(true);
-            setCartItems([]);
 
             for (let i = 0; i < cartItems.length; i++) {
                 const item = cartItems[i];
@@ -43,10 +54,10 @@ function Drawer ({onClose, items = [], onRemoveCart, opened}) {
             <h2 className="d-flex justify-between mb-30">Корзина <img className="cu-p" width={32} height={32}src="/img/btn-remove.svg" alt="Remove" onClick={onClose} /></h2>
            
             
-           {items.length > 0 ? 
+           {cartItems.length > 0 ? 
             <div className="d-flex flex-column flex">
                 <div className="items">
-                {items.map((item => (
+                {cartItems.map((item => (
                     <div key={item.id} className="cartItem d-flex align-center mb-20">
                         <div style={{ backgroundImage: `url(${item.imageUrl})` }} className="catrItemImg"></div>
                         <div className="mr-20 flex">
