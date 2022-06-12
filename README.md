@@ -8,7 +8,7 @@
 
 Изначально в проекте использовался локальный стейт. На данный момент я переписываю его с Redux-toolkit.
 
-### `React, React-router, Redux-toolkit, css-modules`
+### `React, React-router, Redux-toolkit, css-modules, axios`
 
 
 
