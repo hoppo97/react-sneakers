@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncAddToCart, asyncRemoveFromCart } from "../redux/slices/cartSlice";
 import AppContext from "../context";
 import Plus from "./plus/Plus";
-import { asyncAddToFavorites } from "../redux/slices/favoritesSlice";
+import { asyncAddToFavorites, asyncRemoveFromFavorites } from "../redux/slices/favoritesSlice";
 
 function Card ({
     id, 
@@ -21,6 +21,7 @@ function Card ({
    
     const isItemInCart = cartItems && cartItems.some(item => parseInt(item.id) === obj.id);
     const isItemsInFavorites = favorites && favorites.some(item => parseInt(item.id) === obj.id);
+    console.log(isItemsInFavorites);
 
     const onClickPlus = () => {
         if(isItemInCart) {
@@ -32,7 +33,7 @@ function Card ({
 
     const onAddToFavorites = () => {
         if(isItemsInFavorites) {
-            dispatch(asyncRemoveFromCart(obj.id));
+            dispatch(asyncRemoveFromFavorites(obj.id));
         }else {
             dispatch(asyncAddToFavorites(obj));
         }
@@ -57,7 +58,7 @@ function Card ({
               </ContentLoader> : 
               <>
                 <div className="favorite">
-                    <img onClick={onAddToFavorites} src={isItemsInFavorites ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
+                    <img onClick={() => onAddToFavorites(obj.id)} src={isItemsInFavorites ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
                 </div>
                 <img width='100%' height={135} src={imageUrl} alt="" />
                 <h5>{title}</h5>

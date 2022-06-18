@@ -28,6 +28,18 @@ export const asyncAddToFavorites = createAsyncThunk(
   }
 )
 
+export const asyncRemoveFromFavorites = createAsyncThunk(
+  'favorites/asyncRemoveFromFavorites',
+  async function (id, {rejectWithValue, dispatch}) {
+    try {
+      axios.delete(`http://localhost:3001/favorites/${id}`)
+      dispatch(removeToFavorites(id))
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 const initialState = {
   favorites: [],
   status: null,
@@ -41,7 +53,7 @@ export const favoritesSlice = createSlice({
       state.favorites.push(action.payload);
     },
     removeToFavorites(state, action) {
-      state.favorites.filter(item => item.id !== action.payload.id)
+      state.favorites = state.favorites.filter(item => item.id !== action.payload)
     }
   },
 
