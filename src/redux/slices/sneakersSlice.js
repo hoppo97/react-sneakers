@@ -31,13 +31,13 @@ export const sneakersSlice = createSlice({
       state.status = 'loading';
       state.error = null;
     },
-    [fetchSneakers.fulfilled] : (state, actions) => {
+    [fetchSneakers.fulfilled] : (state, action) => {
       state.status = 'resolved';
-      state.sneakers = actions.payload;
+      state.sneakers = action.payload;
     },
-    [fetchSneakers.rejected] : (state, actions) => {
+    [fetchSneakers.rejected] : (state, action) => {
       state.status = 'rejected';
-      state.error = actions.payload;
+      state.error = action.payload;
     },
   },
 });

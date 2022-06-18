@@ -3,23 +3,22 @@ import Card from '../components/Card';
 import { fetchSneakers } from '../redux/slices/sneakersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartItems } from '../redux/slices/cartSlice';
-import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 
-function Home ({
-  searchValue, 
-  onChangeSearchInput, 
-}) {
+function Home () {
+
 
   const dispatch = useDispatch();
   const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
-  
+  const [searchValue, setSearchValue] = React.useState('');
 
-  console.log(error);
+
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value)
+  };
 
   React.useEffect(() => {
     dispatch(fetchSneakers());
     dispatch(fetchCartItems());
-    
   }, []);
 
   const renderItems = () => {

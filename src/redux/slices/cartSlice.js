@@ -26,7 +26,7 @@ export const asyncAddToCart = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-)
+);
 
 export const asyncRemoveFromCart = createAsyncThunk(
   'cartItems/asyncRemoveFromCart',
@@ -38,7 +38,7 @@ export const asyncRemoveFromCart = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   }
-)
+);
 
 export const asyncAllRemoveFromCart = createAsyncThunk (
   'cartItems/asyncAllRemoveFromCart',
@@ -49,7 +49,7 @@ export const asyncAllRemoveFromCart = createAsyncThunk (
       
     }
   }
-)
+);
 
 const initialState = {
   totalPrice: 0,
