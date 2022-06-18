@@ -6,7 +6,7 @@
 
 ## Технологии
 
-Изначально в проекте использовался локальный стейт. На данный момент я переписываю его с Redux-toolkit.
+Изначально в проекте использовался useContext. На данный момент я переписываю его с Redux-toolkit.
 
 ### `React, React-router, Redux-toolkit, CSS-Modules / SCSS, axios`
 
