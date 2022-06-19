@@ -1,23 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import Card from "../components/Card";
-import AppContext from '../context';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAsyncOrders } from '../redux/slices/ordersSlice';
+import SkeletonComponent from '../components/Skeleton/Skeleton';
 
 function Orders() {
-    const { onAddToCart, onAddToFavorite } = React.useContext(AppContext);
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [orders, setOrders] = React.useState([]);
+    const dispatch = useDispatch();
+    const {orders, status, error} = useSelector(state => state?.ordersReducer);
+    console.log(status);
+
     React.useEffect(() => {
-        (async () => {
-            try {
-                const { data } = await axios.get('http://localhost:3001/orders');
-                setOrders(data.reduce((prev, obj) => [...prev, ...obj.items] ,[]));   
-                setIsLoading(false);
-            } catch (error) {
-                alert('Ошибка при запросе заказов');
-                console.error(error);
-            }
-        })();
+        dispatch(fetchAsyncOrders())
     }, []);
 
     return (
@@ -25,16 +19,24 @@ function Orders() {
             <div className="d-flex align-center justify-between mb-40"> 
                 <h1>Мои заказы</h1>
             </div>
-            <div className="d-flex flex-wrap">
-                {(isLoading ? [...Array(4)] : orders).map((item, index) => (
-                    <Card  
-                        key={index}
-                        {...item}
-                        
-                        loading={isLoading} 
-                    /> 
+                <>
+                {status === 'loading' && <SkeletonComponent />}
+                {status !== 'loading' && orders.map((item, index) => (
+                    <div key={item.id}>
+                    {item.id && <h1 className="d-block mb-25">Заказ #{item.id}</h1>}
+                        <div  className="d-flex flex-wrap">
+                            {item.items.map(card => (
+                                <Card  
+                                key={card.id}
+                                {...card}
+                                loading={status} 
+                                false={true}  
+                            /> 
+                            ))}
+                        </div> 
+                    </div>
                 ))}
-            </div> 
+                </>
         </div>
     );
 }

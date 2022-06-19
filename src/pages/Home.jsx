@@ -3,6 +3,8 @@ import Card from '../components/Card';
 import { fetchSneakers } from '../redux/slices/sneakersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartItems } from '../redux/slices/cartSlice';
+import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
+import SkeletonComponent from '../components/Skeleton/Skeleton';
 
 function Home () {
 
@@ -11,7 +13,6 @@ function Home () {
   const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
   const [searchValue, setSearchValue] = React.useState('');
 
-
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value)
   };
@@ -19,21 +20,26 @@ function Home () {
   React.useEffect(() => {
     dispatch(fetchSneakers());
     dispatch(fetchCartItems());
+    dispatch(fetchAsyncFavorites());
   }, []);
 
   const renderItems = () => {
     const filtredItems = sneakers.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
-    return (status === 'loading' ? [...Array(12)] : filtredItems).map((item, index) => (
+    if( status === 'loading') return <SkeletonComponent />
+
+    return filtredItems.map((item, index) => (
       <>
+        {console.log(item)}
         <Card  
-          key={index}
+          key={item.id}
           {...item}
           favorited = {false} 
-          status={status}
+          loading={status}
+          false={true}
         />
       </>
       ))
-  }
+  };
 
   return (
     <div className="content p-40">

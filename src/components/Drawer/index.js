@@ -2,7 +2,6 @@ import React from 'react'
 import axios from "axios";
 
 import Info from "../Info";
-import {useCart} from '../../hooks/useCart';
 
 import styles from './Drawer.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -89,6 +88,7 @@ function Drawer ({onClose, opened}) {
             title={isOrderComplete ? "Заказ оформлен!"  : "Корзина пустая"} 
             description={isOrderComplete ?  `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ"} 
             image= {isOrderComplete ? "/img/complete-order.jpg" : "/img/empty-cart.jpg"}
+            onClose={onClose}
            />
             }
           </div> 

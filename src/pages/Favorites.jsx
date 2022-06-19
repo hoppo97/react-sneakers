@@ -9,6 +9,8 @@ import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 function Favorites({onAddToCart}) { 
     const {favorites} = useSelector(state => state?.favoritesReducer);
     const dispatch = useDispatch();
+    
+    console.log(favorites);
 
     React.useEffect(() => {
         dispatch(fetchAsyncFavorites());
