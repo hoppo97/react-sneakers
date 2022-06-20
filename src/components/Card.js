@@ -44,6 +44,7 @@ function Card ({
 
     return ( 
         <div className="card">
+            
             {!isOrder  && <div className="favorite">
                 <img onClick={() => onAddToFavorites(id)} src={isItemsInFavorites ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
             </div>}
