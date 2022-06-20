@@ -4,7 +4,7 @@ import { fetchSneakers } from '../redux/slices/sneakersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartItems } from '../redux/slices/cartSlice';
 import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
-import SkeletonComponent from '../components/Skeleton/Skeleton';
+import SkeletonComponent from '../components/Skeleton';
 import { fetchAsyncOrders } from '../redux/slices/ordersSlice';
 
 function Home () {
@@ -46,7 +46,6 @@ function Home () {
                 <input placeholder="Поиск..." value={searchValue} onChange={onChangeSearchInput}/>
             </div>
         </div>
-
     <div className="d-flex flex-wrap justify-center">
       {error && <h2>Ошибка {error}</h2>}
       {renderItems()}

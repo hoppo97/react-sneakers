@@ -2,7 +2,7 @@ import React from 'react';
 import Card from "../components/Card";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAsyncOrders } from '../redux/slices/ordersSlice';
-import SkeletonComponent from '../components/Skeleton/Skeleton';
+import SkeletonComponent from '../components/Skeleton';
 import { Link, useLocation } from "react-router-dom";
 
 function Orders() {

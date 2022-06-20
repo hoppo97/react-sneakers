@@ -1,10 +1,11 @@
 import React from "react";
-import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncAddToCart, asyncRemoveFromCart } from "../redux/slices/cartSlice";
-import Plus from "./plus/Plus";
-import { asyncAddToFavorites, asyncRemoveFromFavorites } from "../redux/slices/favoritesSlice";
+import { asyncAddToCart, asyncRemoveFromCart } from "../../redux/slices/cartSlice";
+import Plus from "../Plus";
+import { asyncAddToFavorites, asyncRemoveFromFavorites } from "../../redux/slices/favoritesSlice";
 
+import styles from './Card.module.scss'
+import Favorite from "../Favotire";
 
 function Card ({
     id, 
@@ -43,10 +44,8 @@ function Card ({
     };
 
     return ( 
-        <div className="card">
-            {!isOrder  && <div className="favorite">
-                <img onClick={() => onAddToFavorites(id)} src={isItemsInFavorites ? "/img/heart-liked.svg"  : "/img/heart-unliked.svg" } alt="Unliked" />
-            </div>}
+        <div className={styles.card}>
+            {!isOrder && <Favorite onAddToFavorites={onAddToFavorites} isItemsInFavorites={isItemsInFavorites}/>}
             <img width='100%' height={135} src={imageUrl} alt="" />
             <h5>{title}</h5>
             <div className="d-flex justify-between align-center">

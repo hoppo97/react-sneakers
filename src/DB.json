@@ -75,5 +75,17 @@
   ],
   "cart": [],
   "favorites": [],
-  "orders": []
+  "orders": [
+    {
+      "items": [
+        {
+          "id": 2,
+          "imageUrl": "/img/sneakers/2.jpg",
+          "title": "Мужские Кроссовки Nike Air Max 270",
+          "price": 15600
+        }
+      ],
+      "id": 1
+    }
+  ]
 }

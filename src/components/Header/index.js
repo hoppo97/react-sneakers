@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchCartItems } from '../redux/slices/cartSlice';
-
+import { fetchCartItems } from '../../redux/slices/cartSlice';
 
 function Header ({onClickCart}) {
   const dispatch = useDispatch();
