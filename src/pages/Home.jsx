@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartItems } from '../redux/slices/cartSlice';
 import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 import SkeletonComponent from '../components/Skeleton/Skeleton';
+import { fetchAsyncOrders } from '../redux/slices/ordersSlice';
 
 function Home () {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function Home () {
     dispatch(fetchSneakers());
     dispatch(fetchCartItems());
     dispatch(fetchAsyncFavorites());
+    dispatch(fetchAsyncOrders())
   }, []);
 
   const renderItems = () => {

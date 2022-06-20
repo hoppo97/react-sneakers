@@ -7,7 +7,6 @@ export const fetchCartItems = createAsyncThunk(
   async function (_, {rejectWithValue}) {
     try {
       const {data} = await axios.get('http://localhost:3001/cart');
-
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -42,13 +41,14 @@ export const asyncRemoveFromCart = createAsyncThunk(
 
 export const asyncAllRemoveFromCart = createAsyncThunk (
   'cartItems/asyncAllRemoveFromCart',
-  async function (arr, {rejectWithValue, dispatch}) {
+  async function (id, {rejectWithValue, dispatch}) {
     try {
-      await axios.delete(``)
+      await axios.delete(`http://localhost:3001/cart/${id}`);
+      dispatch(removeFromCart(id));
     } catch (error) {
       
-    }
-  }
+    };
+  },
 );
 
 const initialState = {
@@ -85,6 +85,7 @@ export const cartSlice = createSlice ({
       state.status = 'error';
       state.error = action.payload;
     },
+    
     [asyncAddToCart.rejected] : (state, action) => {
       state.status = 'error';
       state.error = action.payload;
