@@ -45,7 +45,7 @@ function Drawer ({onClose, opened}) {
     }
     
     return (
-        <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+        <div onClick={(e) => e.target === e.currentTarget && onClose()} className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
            <div className={styles.drawer}>
             <h2 className="d-flex justify-between mb-30">Корзина <img className="cu-p" width={32} height={32}src="/img/btn-remove.svg" alt="Remove" onClick={onClose} /></h2>
            
