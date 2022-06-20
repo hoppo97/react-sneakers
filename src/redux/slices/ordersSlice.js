@@ -12,7 +12,20 @@ export const fetchAsyncOrders = createAsyncThunk(
       rejectWithValue(error);
     }
   }
-)
+);
+
+export const asyncAddToOrderss = createAsyncThunk(
+  'orders/asyncAddToOrderss',
+  async function (obj, {rejectWithValue, dispatch}) {
+    try {
+      console.log(obj);
+      await axios.post(`http://localhost:3001/orders`, obj);
+      dispatch(addToOrders(obj));
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
 
 const initialState = {
   orders: [],
@@ -24,9 +37,10 @@ export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-
+    addToOrders(state, action) {
+      state.orders.push(action.payload);
+    }
   },
-
 
   extraReducers: {
     [fetchAsyncOrders.pending] : (state)  => {
@@ -45,6 +59,6 @@ export const ordersSlice = createSlice({
   }
 });
 
-export const {} = ordersSlice.actions;
+export const {addToOrders} = ordersSlice.actions;
 
 export default ordersSlice.reducer;

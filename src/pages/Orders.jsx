@@ -24,7 +24,7 @@ function Orders() {
                     {status === 'loading' && <SkeletonComponent />}
                     {status !== 'loading' && orders.map((item, index) => (
                         <div key={item.id}>
-                        {item.id && <h1 className="d-block mb-25">Заказ #{item.id}</h1>}
+                        {item.id && <h2 className="d-block mb-25">Заказ #{item.id}</h2>}
                             <div  className="d-flex flex-wrap">
                                 {item.items.map(card => (
                                     <Card  

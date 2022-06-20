@@ -15,7 +15,6 @@ function App() {
     setCartOpened(!cartOpened)
   };
 
-
   return (
       <div className="wrapper clear">
         <Drawer 

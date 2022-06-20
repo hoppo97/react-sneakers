@@ -1,41 +1,40 @@
 import React from 'react'
-import axios from "axios";
 
 import Info from "../Info";
 
 import styles from './Drawer.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncRemoveFromCart } from '../../redux/slices/cartSlice';
+import { asyncAllRemoveFromCart, asyncRemoveFromCart } from '../../redux/slices/cartSlice';
+import { asyncAddToOrderss } from '../../redux/slices/ordersSlice';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Drawer ({onClose, opened}) {
 
     const { cartItems, totalPrice } = useSelector(state => state?.cartItemsReducer);
-    const { orders } = useSelector(state => state?.ordersReducer);
+    
     const dispatch = useDispatch();
     
     const onRemoveCart = (id) => {
         dispatch(asyncRemoveFromCart(id));
     }
 
-    const [orderId, setOrderId] = React.useState(null);
     const [isOrderComplete, setIsOrderComplete] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
 
     const onClickOrder = async () => {
         try {
             setIsLoading(true);
-            const {data} = await axios.post('http://localhost:3001/orders', {
+            dispatch(asyncAddToOrderss({
                 items: cartItems,
-            });
-            
-            setOrderId(data.id);
+            }))
+
+         
             setIsOrderComplete(true);
 
             for (let i = 0; i < cartItems.length; i++) {
                 const item = cartItems[i];
-                await axios.delete(`http://localhost:3001/cart/${item.id}`);
+                dispatch(asyncAllRemoveFromCart(item.id));
                 await delay(1000);
             }
 
@@ -43,6 +42,7 @@ function Drawer ({onClose, opened}) {
             alert('Извини братан, не сегодня!')
         }
         setIsLoading(false);
+        setIsOrderComplete(false);
     }
     
     return (
@@ -84,7 +84,7 @@ function Drawer ({onClose, opened}) {
            : 
            <Info 
             title={isOrderComplete ? "Заказ оформлен!"  : "Корзина пустая"} 
-            description={isOrderComplete ?  `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ"} 
+            description={isOrderComplete ?  `Ваш заказ # скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ"} 
             image= {isOrderComplete ? "/img/complete-order.jpg" : "/img/empty-cart.jpg"}
             onClose={onClose}
            />
