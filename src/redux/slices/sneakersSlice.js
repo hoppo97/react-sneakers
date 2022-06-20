@@ -37,6 +37,7 @@ export const sneakersSlice = createSlice({
     },
     [fetchSneakers.rejected] : (state, action) => {
       state.status = 'rejected';
+      state.error = action.payload;
     },
   },
 });

@@ -7,8 +7,6 @@ import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 import SkeletonComponent from '../components/Skeleton/Skeleton';
 
 function Home () {
-
-
   const dispatch = useDispatch();
   const {sneakers, status, error} = useSelector(state => state?.sneakersReducer);
   const [searchValue, setSearchValue] = React.useState('');
@@ -28,16 +26,12 @@ function Home () {
     if( status === 'loading') return <SkeletonComponent />
 
     return filtredItems.map((item, index) => (
-      <>
-        {console.log(item)}
         <Card  
           key={item.id}
           {...item}
           favorited = {false} 
           loading={status}
-          false={true}
         />
-      </>
       ))
   };
 
@@ -52,7 +46,7 @@ function Home () {
         </div>
 
     <div className="d-flex flex-wrap justify-center">
-    {error && <h2>Ошибка {error}</h2>}
+      {error && <h2>Ошибка {error}</h2>}
       {renderItems()}
     </div>
   </div>);

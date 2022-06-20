@@ -39,6 +39,7 @@ export const ordersSlice = createSlice({
     },
     [fetchAsyncOrders.rejected] : (state, action) => {
       state.status = 'error';
+      state.error = action.payload;
     }
 
   }

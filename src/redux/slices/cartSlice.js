@@ -85,8 +85,9 @@ export const cartSlice = createSlice ({
       state.status = 'error';
       state.error = action.payload;
     },
-    [asyncAddToCart.rejected] : (state) => {
+    [asyncAddToCart.rejected] : (state, action) => {
       state.status = 'error';
+      state.error = action.payload;
     }
   }
 });

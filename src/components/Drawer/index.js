@@ -12,15 +12,13 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 function Drawer ({onClose, opened}) {
 
     const { cartItems, totalPrice } = useSelector(state => state?.cartItemsReducer);
+    const { orders } = useSelector(state => state?.ordersReducer);
     const dispatch = useDispatch();
     
     const onRemoveCart = (id) => {
         dispatch(asyncRemoveFromCart(id));
     }
 
-    console.log(cartItems);
-
-   
     const [orderId, setOrderId] = React.useState(null);
     const [isOrderComplete, setIsOrderComplete] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);

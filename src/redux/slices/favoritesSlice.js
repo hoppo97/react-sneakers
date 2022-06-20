@@ -68,6 +68,7 @@ export const favoritesSlice = createSlice({
     },
     [fetchAsyncFavorites.rejected] : (state, action) => {
       state.status = 'rejected';
+      state.error = action.payload;
     }
   }
 });

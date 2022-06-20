@@ -33,7 +33,7 @@ function App() {
             <Favorites />
           }/>
 
-          <Route  path="/orders" element={
+          <Route  path="/order" element={
             <Orders />
           }/>
           

@@ -10,9 +10,8 @@ function Header ({onClickCart}) {
     dispatch(fetchCartItems());
   }, []);
 
-
     const {totalPrice} = useSelector(state => state?.cartItemsReducer);
-    console.log(totalPrice);
+
     return (
         <header className="d-flex justify-between align-center p-40">
           <div className="d-flex align-center">
@@ -35,7 +34,7 @@ function Header ({onClickCart}) {
               </Link>
             </li>
             <li>
-              <Link to="/orders">
+              <Link to="/order">
                 <img alt="" width={18} height={18} src="/img/user.svg"/>
               </Link>
             </li>

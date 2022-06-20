@@ -9,12 +9,10 @@ import { fetchAsyncFavorites } from '../redux/slices/favoritesSlice';
 function Favorites({onAddToCart}) { 
     const {favorites} = useSelector(state => state?.favoritesReducer);
     const dispatch = useDispatch();
-    
-    console.log(favorites);
 
     React.useEffect(() => {
         dispatch(fetchAsyncFavorites());
-    }, [])
+    }, []);
 
     return (
         <div className="content p-40">
@@ -47,6 +45,6 @@ function Favorites({onAddToCart}) {
             
         </div>
     );
-}
+};
 
 export default Favorites;
