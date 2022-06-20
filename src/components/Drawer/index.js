@@ -29,7 +29,6 @@ function Drawer ({onClose, opened}) {
                 items: cartItems,
             }))
 
-         
             setIsOrderComplete(true);
 
             for (let i = 0; i < cartItems.length; i++) {

@@ -19,7 +19,6 @@ function Favorites({onAddToCart}) {
             <div className="d-flex align-center justify-between mb-40"> 
                 <h1>Мои закладки</h1>
             </div>
-
             {favorites.length > 0 ?
                 <div className="d-flex flex-wrap justify-center">
                         {favorites.map((item) => (
@@ -41,8 +40,7 @@ function Favorites({onAddToCart}) {
                         </button>
                     </Link>
                 </div>
-        }
-            
+            }
         </div>
     );
 };

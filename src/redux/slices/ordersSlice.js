@@ -38,6 +38,7 @@ export const ordersSlice = createSlice({
   initialState,
   reducers: {
     addToOrders(state, action) {
+      console.log(action);
       state.orders.push(action.payload);
     }
   },
@@ -54,8 +55,7 @@ export const ordersSlice = createSlice({
     [fetchAsyncOrders.rejected] : (state, action) => {
       state.status = 'error';
       state.error = action.payload;
-    }
-
+    },
   }
 });
 
