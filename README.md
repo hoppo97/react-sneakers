@@ -10,5 +10,7 @@
 
 ### `React, React-router, Redux-toolkit, CSS-Modules / SCSS, axios`
 
+## Перспективы
 
+В будущем будет добавлен typeScript.
 
