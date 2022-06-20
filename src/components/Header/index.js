@@ -10,6 +10,9 @@ function Header ({onClickCart}) {
   }, []);
 
     const {totalPrice} = useSelector(state => state?.cartItemsReducer);
+    const {favorites} = useSelector(state => state?.favoritesReducer);
+
+    console.log(favorites);
 
     return (
         <header className="d-flex justify-between align-center p-40">
@@ -29,7 +32,7 @@ function Header ({onClickCart}) {
             </li>  
             <li>
               <Link to="/favorites">
-                <img alt="" width={18} height={18} src="/img/favorite.svg"/>             
+                <img alt="" width={18} height={18} src={!favorites.length ? "img/favorite.svg" : "img/isFavorites.svg"}/>             
               </Link>
             </li>
             <li>

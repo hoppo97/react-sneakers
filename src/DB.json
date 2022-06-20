@@ -73,8 +73,22 @@
       "imageUrl": "/img/sneakers/12.jpg"
     }
   ],
-  "cart": [],
-  "favorites": [],
+  "cart": [
+    {
+      "id": 6,
+      "imageUrl": "/img/sneakers/6.jpg",
+      "title": "Мужские Кроссовки Nike Kyrie 7",
+      "price": 11299
+    }
+  ],
+  "favorites": [
+    {
+      "id": 3,
+      "imageUrl": "/img/sneakers/3.jpg",
+      "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+      "price": 8499
+    }
+  ],
   "orders": [
     {
       "items": [
@@ -86,6 +100,17 @@
         }
       ],
       "id": 1
+    },
+    {
+      "items": [
+        {
+          "id": 3,
+          "imageUrl": "/img/sneakers/3.jpg",
+          "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+          "price": 8499
+        }
+      ],
+      "id": 2
     }
   ]
 }
